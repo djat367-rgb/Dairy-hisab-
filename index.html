@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Dairy Hisab - Milk & Expense Tracker</title>
+  <title>Dairy Hisab – Milk & Expense Tracker</title>
   <style>
     :root {
       --primary: #1b5e20;
@@ -16,80 +16,41 @@
       --muted: #6b7280;
       --border: #d1d5db;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-
     body {
-      background-color: var(--bg);
+      background: var(--bg);
       color: var(--text);
-      padding: 12px;
       padding-bottom: 40px;
-      max-width: 480px;
-      margin: 0 auto;
     }
-
     header {
-      background: linear-gradient(135deg, #1b5e20, #2e7d32);
+      background: var(--primary);
       color: #fff;
       padding: 16px;
-      border-radius: 14px;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
-
     header h1 {
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 700;
     }
-
     header p {
-      font-size: 12px;
+      font-size: 0.8rem;
       opacity: 0.9;
       margin-top: 2px;
     }
-
-    .backup-actions {
-      display: flex;
-      gap: 6px;
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 12px;
     }
-
-    .btn-mini {
-      background: rgba(255, 255, 255, 0.2);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: var(--primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
     .tabs {
       display: flex;
       background: #e5e7eb;
@@ -97,177 +58,630 @@
       padding: 4px;
       margin-bottom: 14px;
     }
-
     .tab-btn {
       flex: 1;
-      padding: 10px;
       border: none;
       background: transparent;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 10px 6px;
+      font-size: 0.9rem;
       font-weight: 600;
       color: var(--muted);
+      border-radius: 8px;
       cursor: pointer;
-      transition: all 0.2s;
     }
-
     .tab-btn.active {
-      background: #fff;
+      background: var(--card);
       color: var(--primary);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
     }
-
-    .form-group {
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      border: 1px solid #eef0f2;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
       margin-bottom: 12px;
-      width: 100%;
+      color: var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group.full {
+      grid-column: span 2;
+    }
     label {
-      display: block;
-      font-size: 13px;
+      font-size: 0.8rem;
       font-weight: 600;
-      margin-bottom: 5px;
-      color: #374151;
+      color: var(--muted);
+      margin-bottom: 4px;
     }
-
-    input[type="date"],
-    input[type="number"],
-    input[type="text"],
-    select {
+    input, select {
       width: 100%;
-      height: 44px;
-      padding: 0 12px;
-      font-size: 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
       background: #fff;
       color: var(--text);
-      display: block;
-      -webkit-appearance: none;
+      min-width: 0;
     }
-
     input:focus, select:focus {
       outline: none;
       border-color: var(--primary);
     }
-
-    .row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .shift-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+    .shift-box {
+      display: flex;
       gap: 8px;
     }
-
     .shift-btn {
-      height: 44px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: #f9fafb;
-      font-size: 14px;
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
       font-weight: 600;
-      color: var(--text);
+      font-size: 0.9rem;
       cursor: pointer;
+      color: var(--muted);
     }
-
     .shift-btn.active {
       background: var(--primary-light);
       border-color: var(--primary);
       color: var(--primary);
     }
-
-    .live-preview {
-      background: #f0fdf4;
-      border: 1px dashed #86efac;
+    .calc-preview {
+      background: var(--primary-light);
       padding: 10px 12px;
-      border-radius: 10px;
-      margin-bottom: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
-    }
-
-    .live-preview strong {
-      font-size: 18px;
+      font-weight: 700;
       color: var(--primary);
     }
-
-    .btn-submit {
+    .btn-primary {
       width: 100%;
-      height: 48px;
       background: var(--primary);
       color: #fff;
       border: none;
-      border-radius: 10px;
-      font-size: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
       font-weight: 700;
+      margin-top: 12px;
       cursor: pointer;
     }
-
-    .btn-submit:active {
+    .btn-primary:active {
       opacity: 0.9;
     }
-
-    .btn-expense {
-      background: var(--accent);
-    }
-
-    .filter-row {
+    .filter-bar {
       display: flex;
       gap: 6px;
       margin-bottom: 12px;
-      overflow-x: auto;
     }
-
-    .filter-pill {
+    .filter-btn {
       flex: 1;
-      padding: 8px 6px;
+      padding: 7px 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
       border: 1px solid var(--border);
       background: #fff;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
+      border-radius: 6px;
       cursor: pointer;
-      text-align: center;
     }
-
-    .filter-pill.active {
-      background: var(--primary);
+    .filter-btn.active {
+      background: var(--accent);
       color: #fff;
-      border-color: var(--primary);
+      border-color: var(--accent);
     }
-
     .summary-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
-
     .stat-box {
       background: #f9fafb;
-      padding: 12px;
-      border-radius: 10px;
       border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
     }
-
     .stat-box span {
       display: block;
-      font-size: 12px;
+      font-size: 0.75rem;
       color: var(--muted);
-      margin-bottom: 4px;
     }
-
     .stat-box strong {
-      font-size: 18px;
+      display: block;
+      font-size: 1.1rem;
+      margin-top: 2px;
       color: var(--text);
     }
+    .stat-box.net {
+      grid-column: span 2;
+      background: var(--primary-light);
+      border-color: #c8e6c9;
+    }
+    .stat-box.net strong {
+      color: var(--primary);
+      font-size: 1.3rem;
+    }
+    .entry-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .entry-item:last-child {
+      border-bottom: none;
+    }
+    .entry-info strong {
+      display: block;
+      font-size: 0.95rem;
+    }
+    .entry-info small {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    .entry-right {
+      text-align: right;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .entry-amount {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .del-btn {
+      background: #fee2e2;
+      color: var(--danger);
+      border: none;
+      border-radius: 6px;
+      padding: 5px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .backup-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .btn-outline {
+      flex: 1;
+      padding: 9px;
+      border: 1px solid var(--accent);
+      background: #fff;
+      color: var(--accent);
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
 
-    .stat-box.income strong { color: var(--primary); }
-    .stat-box.
+<header>
+  <h1>🥛 Dairy Hisab</h1>
+  <p>Doodh aur Kharch ka Daily Hisab</p>
+</header>
+
+<div class="container">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('milk', this)">🥛 Doodh Entry</button>
+    <button class="tab-btn" onclick="switchTab('expense', this)">💸 Kharch</button>
+    <button class="tab-btn" onclick="switchTab('report', this)">📊 Hisab / Report</button>
+  </div>
+
+  <!-- MILK TAB -->
+  <div id="tab-milk">
+    <div class="card">
+      <div class="card-title">
+        <span>Nayi Doodh Entry</span>
+        <span id="auto-shift-badge" style="font-size:0.75rem; background:#e8f5e9; padding:3px 8px; border-radius:12px;">Auto Shift</span>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Tarikh (Date)</label>
+          <input type="date" id="m-date" />
+        </div>
+        <div class="form-group">
+          <label>Shift (Samay)</label>
+          <div class="shift-box">
+            <button type="button" id="btn-morning" class="shift-btn" onclick="setShift('Subah')">☀️ Subah</button>
+            <button type="button" id="btn-evening" class="shift-btn" onclick="setShift('Sham')">🌙 Sham</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Doodh (Liter)</label>
+          <input type="number" id="m-liter" step="0.1" placeholder="Jaise: 18.5" oninput="updatePreview()" />
+        </div>
+        <div class="form-group">
+          <label>Fat (%)</label>
+          <input type="number" id="m-fat" step="0.1" placeholder="Jaise: 6.5" oninput="updatePreview()" />
+        </div>
+        <div class="form-group full">
+          <label>Fat Rate (₹ per Fat)</label>
+          <input type="number" id="m-rate" step="0.1" value="8.5" oninput="saveRate(); updatePreview()" />
+        </div>
+      </div>
+
+      <div class="calc-preview">
+        <span>Kul Rakam (Amount):</span>
+        <span id="preview-amount">₹ 0.00</span>
+      </div>
+
+      <button class="btn-primary" onclick="addMilk()">+ Doodh Save Karein</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Aaj ki Entries</div>
+      <div id="today-milk-list"></div>
+    </div>
+  </div>
+
+  <!-- EXPENSE TAB -->
+  <div id="tab-expense" class="hidden">
+    <div class="card">
+      <div class="card-title">Naya Kharch (Feed / Dawa)</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Tarikh (Date)</label>
+          <input type="date" id="e-date" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="e-cat">
+            <option value="Khal / Churi">🌾 Khal / Churi</option>
+            <option value="Hara Chara">🌿 Hara Chara / Bhusa</option>
+            <option value="Dawa / Doctor">💊 Dawa / Doctor</option>
+            <option value="Mineral Mix">🧂 Mineral Mixture</option>
+            <option value="Anya Kharch">📦 Anya Kharch</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Kharch Rakam (₹)</label>
+          <input type="number" id="e-amount" placeholder="Jaise: 1250" />
+        </div>
+        <div class="form-group full">
+          <label>Note (Optional)</label>
+          <input type="text" id="e-note" placeholder="Jaise: 2 bori khal" />
+        </div>
+      </div>
+      <button class="btn-primary" style="background:var(--accent);" onclick="addExpense()">+ Kharch Save Karein</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Haal ke Kharch</div>
+      <div id="recent-expense-list"></div>
+    </div>
+  </div>
+
+  <!-- REPORT TAB -->
+  <div id="tab-report" class="hidden">
+    <div class="card">
+      <div class="card-title">Hisab Summary</div>
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="setFilter(7, this)">7 Din</button>
+        <button class="filter-btn" onclick="setFilter(10, this)">10 Din</button>
+        <button class="filter-btn" onclick="setFilter(30, this)">30 Din</button>
+        <button class="filter-btn" onclick="setFilter(0, this)">All</button>
+      </div>
+
+      <div class="summary-grid">
+        <div class="stat-box">
+          <span>Kul Doodh</span>
+          <strong id="rep-liter">0.0 L</strong>
+        </div>
+        <div class="stat-box">
+          <span>Ausat Fat (Avg)</span>
+          <strong id="rep-fat">0.0%</strong>
+        </div>
+        <div class="stat-box">
+          <span>Doodh Kamai</span>
+          <strong id="rep-income" style="color:var(--primary);">₹ 0</strong>
+        </div>
+        <div class="stat-box">
+          <span>Kul Kharch</span>
+          <strong id="rep-expense" style="color:var(--danger);">₹ 0</strong>
+        </div>
+        <div class="stat-box net">
+          <span>Shuddh Bachat (Net Profit)</span>
+          <strong id="rep-net">₹ 0</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Chuni Hui Avadhi ki Entries</div>
+      <div id="report-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Data Backup & Restore</div>
+      <p style="font-size:0.8rem; color:var(--muted);">Apna hisab surakshit rakhne ke liye backup download karein.</p>
+      <div class="backup-row">
+        <button class="btn-outline" onclick="exportData()">⬇️ Backup Download</button>
+        <button class="btn-outline" onclick="document.getElementById('import-file').click()">⬆️ Backup Restore</button>
+        <input type="file" id="import-file" class="hidden" accept=".json" onchange="importData(event)" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let milkEntries = JSON.parse(localStorage.getItem('dh_milk') || '[]');
+  let expenseEntries = JSON.parse(localStorage.getItem('dh_expense') || '[]');
+  let selectedShift = 'Subah';
+  let currentFilterDays = 7;
+
+  function getLocalDateStr() {
+    const now = new Date();
+    const offset = now.getTimezoneOffset() * 60000;
+    return new Date(now - offset).toISOString().split('T')[0];
+  }
+
+  function initApp() {
+    const today = getLocalDateStr();
+    document.getElementById('m-date').value = today;
+    document.getElementById('e-date').value = today;
+
+    const savedRate = localStorage.getItem('dh_fat_rate');
+    if (savedRate) document.getElementById('m-rate').value = savedRate;
+
+    const hour = new Date().getHours();
+    if (hour >= 14) {
+      setShift('Sham');
+    } else {
+      setShift('Subah');
+    }
+
+    renderAll();
+  }
+
+  function setShift(shift) {
+    selectedShift = shift;
+    document.getElementById('btn-morning').classList.toggle('active', shift === 'Subah');
+    document.getElementById('btn-evening').classList.toggle('active', shift === 'Sham');
+  }
+
+  function saveRate() {
+    const r = document.getElementById('m-rate').value;
+    if (r) localStorage.setItem('dh_fat_rate', r);
+  }
+
+  function updatePreview() {
+    const liter = parseFloat(document.getElementById('m-liter').value) || 0;
+    const fat = parseFloat(document.getElementById('m-fat').value) || 0;
+    const rate = parseFloat(document.getElementById('m-rate').value) || 0;
+    const amount = liter * fat * rate;
+    document.getElementById('preview-amount').innerText = '₹ ' + amount.toFixed(2);
+  }
+
+  function addMilk() {
+    const date = document.getElementById('m-date').value;
+    const liter = parseFloat(document.getElementById('m-liter').value);
+    const fat = parseFloat(document.getElementById('m-fat').value);
+    const rate = parseFloat(document.getElementById('m-rate').value);
+
+    if (!date || isNaN(liter) || liter <= 0 || isNaN(fat) || fat <= 0 || isNaN(rate) || rate <= 0) {
+      alert('Kripya Doodh (Liter), Fat (%) aur Rate sahi bharein.');
+      return;
+    }
+
+    const amount = parseFloat((liter * fat * rate).toFixed(2));
+    milkEntries.unshift({
+      id: Date.now(),
+      date,
+      shift: selectedShift,
+      liter,
+      fat,
+      rate,
+      amount
+    });
+
+    localStorage.setItem('dh_milk', JSON.stringify(milkEntries));
+    document.getElementById('m-liter').value = '';
+    document.getElementById('m-fat').value = '';
+    updatePreview();
+    renderAll();
+  }
+
+  function deleteMilk(id) {
+    if (!confirm('Kya aap is entry ko hatana chahte hain?')) return;
+    milkEntries = milkEntries.filter(item => item.id !== id);
+    localStorage.setItem('dh_milk', JSON.stringify(milkEntries));
+    renderAll();
+  }
+
+  function addExpense() {
+    const date = document.getElementById('e-date').value;
+    const cat = document.getElementById('e-cat').value;
+    const amount = parseFloat(document.getElementById('e-amount').value);
+    const note = document.getElementById('e-note').value.trim();
+
+    if (!date || isNaN(amount) || amount <= 0) {
+      alert('Kripya kharch ki sahi rakam bharein.');
+      return;
+    }
+
+    expenseEntries.unshift({
+      id: Date.now(),
+      date,
+      cat,
+      amount,
+      note
+    });
+
+    localStorage.setItem('dh_expense', JSON.stringify(expenseEntries));
+    document.getElementById('e-amount').value = '';
+    document.getElementById('e-note').value = '';
+    renderAll();
+  }
+
+  function deleteExpense(id) {
+    if (!confirm('Kya aap is kharch ko hatana chahte hain?')) return;
+    expenseEntries = expenseEntries.filter(item => item.id !== id);
+    localStorage.setItem('dh_expense', JSON.stringify(expenseEntries));
+    renderAll();
+  }
+
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-milk').classList.toggle('hidden', tab !== 'milk');
+    document.getElementById('tab-expense').classList.toggle('hidden', tab !== 'expense');
+    document.getElementById('tab-report').classList.toggle('hidden', tab !== 'report');
+    renderAll();
+  }
+
+  function setFilter(days, btn) {
+    currentFilterDays = days;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderReport();
+  }
+
+  function renderAll() {
+    const today = getLocalDateStr();
+    const todayMilk = milkEntries.filter(m => m.date === today);
+    const todayList = document.getElementById('today-milk-list');
+
+    if (todayMilk.length === 0) {
+      todayList.innerHTML = '<p style="color:var(--muted); font-size:0.85rem;">Aaj abhi koi entry nahi hui hai.</p>';
+    } else {
+      todayList.innerHTML = todayMilk.map(m => `
+        <div class="entry-item">
+          <div class="entry-info">
+            <strong>${m.shift} – ${m.liter} L</strong>
+            <small>Fat: ${m.fat}% | Rate: ₹${m.rate}</small>
+          </div>
+          <div class="entry-right">
+            <span class="entry-amount" style="color:var(--primary);">₹${m.amount.toFixed(0)}</span>
+            <button class="del-btn" onclick="deleteMilk(${m.id})">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    const expList = document.getElementById('recent-expense-list');
+    if (expenseEntries.length === 0) {
+      expList.innerHTML = '<p style="color:var(--muted); font-size:0.85rem;">Abhi koi kharch darj nahi hai.</p>';
+    } else {
+      expList.innerHTML = expenseEntries.slice(0, 10).map(e => `
+        <div class="entry-item">
+          <div class="entry-info">
+            <strong>${e.cat}</strong>
+            <small>${e.date}${e.note ? ' • ' + e.note : ''}</small>
+          </div>
+          <div class="entry-right">
+            <span class="entry-amount" style="color:var(--danger);">₹${e.amount.toFixed(0)}</span>
+            <button class="del-btn" onclick="deleteExpense(${e.id})">✕</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderReport();
+  }
+
+  function renderReport() {
+    const now = new Date();
+    const cutoff = new Date();
+    if (currentFilterDays > 0) {
+      cutoff.setDate(now.getDate() - currentFilterDays);
+    }
+    const cutoffStr = currentFilterDays > 0 ? cutoff.toISOString().split('T')[0] : '0000-00-00';
+
+    const fMilk = milkEntries.filter(m => m.date >= cutoffStr);
+    const fExp = expenseEntries.filter(e => e.date >= cutoffStr);
+
+    const totalLiter = fMilk.reduce((sum, m) => sum + m.liter, 0);
+    const totalIncome = fMilk.reduce((sum, m) => sum + m.amount, 0);
+    const totalExpense = fExp.reduce((sum, e) => sum + e.amount, 0);
+    const weightedFat = totalLiter > 0 ? fMilk.reduce((sum, m) => sum + (m.fat * m.liter), 0) / totalLiter : 0;
+    const netProfit = totalIncome - totalExpense;
+
+    document.getElementById('rep-liter').innerText = totalLiter.toFixed(1) + ' L';
+    document.getElementById('rep-fat').innerText = weightedFat.toFixed(1) + '%';
+    document.getElementById('rep-income').innerText = '₹ ' + Math.round(totalIncome);
+    document.getElementById('rep-expense').innerText = '₹ ' + Math.round(totalExpense);
+    document.getElementById('rep-net').innerText = '₹ ' + Math.round(netProfit);
+
+    const repList = document.getElementById('report-list');
+    if (fMilk.length === 0 && fExp.length === 0) {
+      repList.innerHTML = '<p style="color:var(--muted); font-size:0.85rem;">Is avadhi mein koi record nahi hai.</p>';
+      return;
+    }
+
+    repList.innerHTML = fMilk.map(m => `
+      <div class="entry-item">
+        <div class="entry-info">
+          <strong>${m.date} (${m.shift})</strong>
+          <small>${m.liter} L • Fat ${m.fat}%</small>
+        </div>
+        <div class="entry-right">
+          <span class="entry-amount" style="color:var(--primary);">+₹${m.amount.toFixed(0)}</span>
+          <button class="del-btn" onclick="deleteMilk(${m.id})">✕</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function exportData() {
+    const data = { milk: milkEntries, expense: expenseEntries };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'dairy-hisab-backup-' + getLocalDateStr() + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (Array.isArray(data.milk)) milkEntries = data.milk;
+        if (Array.isArray(data.expense)) expenseEntries = data.expense;
+        localStorage.setItem('dh_milk', JSON.stringify(milkEntries));
+        localStorage.setItem('dh_expense', JSON.stringify(expenseEntries));
+        renderAll();
+        alert('Backup safaltapoorvak restore ho gaya!');
+      } catch (err) {
+        alert('Galat backup file hai.');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  initApp();
+</script>
+</body>
+</html>
